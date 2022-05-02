@@ -1,4 +1,13 @@
+import chalk from 'chalk'
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
 const { question } = require('readline-sync');
+
+//chalk variables 
+const baseStyle = chalk.white.bold
+const success = chalk.green.bold
+const error = chalk.red.bold
+const warning = chalk.yellow.bold
 
 // instantiates the dictionary using Javascript Map 
 let dict = new Map();
@@ -6,22 +15,22 @@ let dict = new Map();
 async function run() {
   while(true) {
     console.log(
-      "Please enter a command. For a list of commands enter HELP."
+      baseStyle("Please enter a command. For a list of commands enter HELP.")
     );
-    const input = question(">");
+    const input = question(baseStyle(">"));
     const inputArray = input.split(" ");
 
     // HELP
     // Extra functionality that allows a user to view all command prompts.
     const help = () => {
       if (inputArray.length !== 1) {
-        console.log(">> ERROR, HELP returns all command prompts\n>> No arguments needed.");
+        console.log(error(">> ERROR, HELP returns all command prompts\n>> No arguments needed."));
       } else {
-        console.log("ADD\t\t KEYS\t\t MEMBERS");
-        console.log("REMOVE\t\t REMOVEALL\t CLEAR");
-        console.log("KEYEXISTS\t MEMBEREXISTS\t ALLMEMBERS");
-        console.log("ITEMS\t\t MAP\t\t HELP");
-        console.log("EXIT");
+        console.log(baseStyle("ADD\t\t KEYS\t\t MEMBERS"));
+        console.log(baseStyle("REMOVE\t\t REMOVEALL\t CLEAR"));
+        console.log(baseStyle("KEYEXISTS\t MEMBEREXISTS\t ALLMEMBERS"));
+        console.log(baseStyle("ITEMS\t\t HELP"));
+        console.log(warning("EXIT"));
       }
     }
 
@@ -29,24 +38,24 @@ async function run() {
     // Adds Key and Value to dictionary 
     const add = () => {
       if (inputArray.length !== 3) {
-        console.log(">> ERROR, ADD must include a Key and a Member (ex. foo bar)\n");
+        console.log(error(">> ERROR, ADD must include a Key and a Member (ex. foo bar)\n"));
       } else {
         if (dict.has(inputArray[1])) {
           let member = dict
             .get(inputArray[1])
             .find((mem) => mem == inputArray[2]);
           if (member) {
-            console.log(`>> ERROR, member:${inputArray[2]} already exists for key:${inputArray[1]}.\n`);
+            console.log(error(`>> ERROR, member:${inputArray[2]} already exists for key:${inputArray[1]}.\n`));
           } else {
             dict.set(
               inputArray[1],
               dict.get(inputArray[1]).concat([inputArray[2]])
             );
-            console.log(">> Added\n");
+            console.log(success(">> Added\n"));
           }
         } else {
           dict.set(inputArray[1], [inputArray[2]]);
-          console.log(">> Added\n");
+          console.log(success(">> Added\n"));
         }
       }
     }
@@ -56,15 +65,15 @@ async function run() {
 
     const printKeys = () => {
       if (inputArray.length !== 1) {
-        console.log(">> ERROR, this returns a list of all keys\n>> No arguments needed\n");
+        console.log(error(">> ERROR, this returns a list of all keys\n>> No arguments needed\n"));
       }
       if (dict.size == 0) {
-        console.log("There are no keys in the dictionary\n");
+        console.log(warning("There are no keys in the dictionary\n"));
       } else {
         let i = 0;
         for (const key of dict.keys()) {
           i++;
-          console.log(`${i}) ${key}`);
+          console.log(success(`${i}) ${key}`));
         }
         console.log("");
       }
@@ -75,16 +84,16 @@ async function run() {
 
     const printMembers = () => {
       if (inputArray.length !== 2) {
-        console.log(">> ERROR, MEMBERS prompt requires a key.\n");
+        console.log(error(">> ERROR, MEMBERS prompt requires a key.\n"));
       } else {
         if (dict.has(inputArray[1])) {
           for (let i = 0; i < dict.get(inputArray[1]).length; i++) {
             let value = dict.get(inputArray[1]);
-            console.log(`${i + 1}) ${value[i]}`);
+            console.log(success(`${i + 1}) ${value[i]}`));
           }
           console.log("");
         } else {
-          console.log(">> ERROR, key not found.\n");
+          console.log(error(">> ERROR, key not found.\n"));
         }
      }
     }
@@ -92,7 +101,7 @@ async function run() {
     //REMOVE member
     const removeMember = () => {
       if (inputArray.length !== 3) {
-        console.log(">> ERROR, please include a key and member pair.\n");
+        console.log(error(">> ERROR, please include a key and member pair.\n"));
       } else {
         if (dict.has(inputArray[1])) {
           let member = dict
@@ -108,12 +117,12 @@ async function run() {
             if (dict.get(inputArray[1]).length == 0) {
               dict.delete(inputArray[1]);
             }
-            console.log(") Removed\n");
+            console.log(success(">> Removed\n"));
           } else {
-            console.log("ERROR, member not found.\n");
+            console.log(error("ERROR, member not found.\n"));
           }
         } else {
-          console.log("ERROR, key not found.\n");
+          console.log(error("ERROR, key not found.\n"));
         }
       }
     }
@@ -121,13 +130,13 @@ async function run() {
     //REMOVE ALL key 
     const removeAll = () => {
       if (inputArray.length !== 2) {
-        console.log(">> ERROR, please specify the key you would like to remove.\n");
+        console.log(error(">> ERROR, please specify the key you would like to remove.\n"));
       } else {
         if (dict.has(inputArray[1])) {
           dict.delete(inputArray[1]);
-          console.log(") Removed\n");
+          console.log(success(">> Removed\n"));
         } else {
-          console.log(") ERROR, key not found.\n");
+          console.log(success(">> ERROR, key not found.\n"));
         }
       }
     }
@@ -136,22 +145,22 @@ async function run() {
 
     const clear = () => {
       if (inputArray.length !== 1) {
-        console.log(">> ERROR, no arguments needed.\n");
+        console.log(error(">> ERROR, no arguments needed.\n"));
       } else {
         dict.clear();
-        console.log(") Cleared\n");
+        console.log(success(">> Cleared\n"));
       }
     }
 
     //KEY EXISTS 
     const keyExists = () => {
       if (inputArray.length !== 2) {
-        console.log(">> ERROR, KEYEXISTS commands requires a key argument.\n");
+        console.log(error(">> ERROR, KEYEXISTS commands requires a key argument.\n"));
       } else {
         if (dict.has(inputArray[1])) {
-          console.log(">> true\n");
+          console.log(success(">> true\n"));
         } else {
-          console.log(">> false\n");
+          console.log(error(">> false\n"));
         }
       }
     }
@@ -159,19 +168,63 @@ async function run() {
     //MEMBER EXISTS 
     const memberExists = () => {
       if (inputArray.length !== 3) {
-        console.log(">> ERROR, MEMBEREXISTS command requires an key and member argument.\n");
+        console.log(error(">> ERROR, MEMBEREXISTS command requires an key and member argument.\n"));
       } else {
         if (dict.has(inputArray[1])) {
           let member = dict
             .get(inputArray[1])
             .find((mem) => mem == inputArray[2]);
           if (member) {
-            console.log(">> true\n");
+            console.log(success(">> true\n"));
           } else {
-            console.log(">> false\n");
+            console.log(error(">> false\n"));
           }
         } else {
-          console.log(">> false\n");
+          console.log(error(">> false\n"));
+        }
+      }
+    }
+
+
+    //ALL MEMBERS
+    const getAllMembers = () => {
+      if (inputArray.length !== 1) {
+        console.log(error(">> ERROR, no arguments needed.\n"));
+      } else {
+        if (dict.size !== 0) {
+          let j = 0;
+          const logMapElements = (value) => {
+            for (let i = 0; i < value.length; i++) {
+              j++;
+              console.log(success(`${j}) ${value[i]}`));
+            }
+          }
+          dict.forEach(logMapElements);
+          console.log("");
+        } else {
+          console.log(warning("There are no members in the Dictionary.\n"));
+        }
+      }
+    }
+
+    //ITEMS 
+
+    const getAllItems = () => {
+      if (inputArray.length !== 1) {
+        console.log(error(">> ERROR,no arguments needed.\n"));
+      } else {
+        if (dict.size !== 0) {
+          let j = 0;
+          const logMapElements = (value, key) => {
+            for (let i = 0; i < value.length; i++) {
+              j++;
+              console.log(success(`${j}) ${key}: ${value[i]}`));
+            }
+          }
+          dict.forEach(logMapElements);
+          console.log("");
+        } else {
+          console.log(warning("There are no Sets in the Dictionary.\n"));
         }
       }
     }
@@ -209,6 +262,10 @@ async function run() {
           break
       case "items":
           getAllItems()
+          break
+      case "exit": 
+          console.log(success("Goodbye!"))
+          process.exit()
           break
       default:
           console.log("That is not a command prompt.\n\nType HELP for a list of commands")
