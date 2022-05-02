@@ -9,44 +9,63 @@ async function run() {
       "Please enter a command. For a list of commands enter HELP."
     );
     const input = question(">");
-    const splitInputArray = input.split(" ");
+    const inputArray = input.split(" ");
 
     // HELP
     // Extra functionality that allows a user to view all command prompts.
-    if (splitInputArray[0] == "HELP") {
-      if (splitInputArray.length !== 1) {
-        console.log(") ERROR, Incorrect number of arguments.\n");
+    if (inputArray[0] == "HELP") {
+      if (inputArray.length !== 1) {
+        console.log(">> ERROR, HELP returns all command prompts\n>> No arguments needed.");
       } else {
-        console.log("ADD\t KEYS\t\t\t MEMBERS");
-        console.log("REMOVE\t REMOVEALL\t\t CLEAR");
+        console.log("ADD\t\t KEYS\t\t MEMBERS");
+        console.log("REMOVE\t\t REMOVEALL\t CLEAR");
         console.log("KEYEXISTS\t MEMBEREXISTS\t ALLMEMBERS");
-        console.log("ITEMS\t\t MAP\t\t\t HELP");
+        console.log("ITEMS\t\t MAP\t\t HELP");
         console.log("EXIT");
       }
     }
 
-    // ADD foo bar
-    if (splitInputArray[0] == "ADD") {
-      if (splitInputArray.length !== 3) {
-        console.log(") ERROR, Incorrect number of arguments.\n ADD must include a Key and a Member (ex. foo bar)\n");
+    // ADD 
+    // Adds Key and Value to dictionary 
+    if (inputArray[0] == "ADD") {
+      if (inputArray.length !== 3) {
+        console.log(">> ERROR, ADD must include a Key and a Member (ex. foo bar)\n");
       } else {
-        if (dict.has(splitInputArray[1])) {
+        if (dict.has(inputArray[1])) {
           let member = dict
-            .get(splitInputArray[1])
-            .find((mem) => mem == splitInputArray[2]);
+            .get(inputArray[1])
+            .find((mem) => mem == inputArray[2]);
           if (member) {
-            console.log(") ERROR, member already exists for key.\n");
+            console.log(`>> ERROR, member:${inputArray[2]} already exists for key:${inputArray[1]}.\n`);
           } else {
             dict.set(
-              splitInputArray[1],
-              dict.get(splitInputArray[1]).concat([splitInputArray[2]])
+              inputArray[1],
+              dict.get(inputArray[1]).concat([inputArray[2]])
             );
-            console.log(") Added\n");
+            console.log(">> Added\n");
           }
         } else {
-          dict.set(splitInputArray[1], [splitInputArray[2]]);
-          console.log(") Added\n");
+          dict.set(inputArray[1], [inputArray[2]]);
+          console.log(">> Added\n");
         }
+      }
+    }
+    //KEYS 
+    //displays all the keys in the dictionary 
+
+    if (inputArray[0] == "KEYS") {
+      if (inputArray.length !== 1) {
+        console.log(">> ERROR, this returns a list of all keys\n>> No arguments needed\n");
+      }
+      if (dict.size == 0) {
+        console.log("There are no keys in the dictionary\n");
+      } else {
+        let i = 0;
+        for (const key of dict.keys()) {
+          i++;
+          console.log(`${i}) ${key}`);
+        }
+        console.log("");
       }
     }
   }
