@@ -132,6 +132,50 @@ async function run() {
       }
     }
 
+    //CLEAR 
+
+    const clear = () => {
+      if (inputArray.length !== 1) {
+        console.log(">> ERROR, no arguments needed.\n");
+      } else {
+        dict.clear();
+        console.log(") Cleared\n");
+      }
+    }
+
+    //KEY EXISTS 
+    const keyExists = () => {
+      if (inputArray.length !== 2) {
+        console.log(">> ERROR, KEYEXISTS commands requires a key argument.\n");
+      } else {
+        if (dict.has(inputArray[1])) {
+          console.log(">> true\n");
+        } else {
+          console.log(">> false\n");
+        }
+      }
+    }
+
+    //MEMBER EXISTS 
+    const memberExists = () => {
+      if (inputArray.length !== 3) {
+        console.log(">> ERROR, MEMBEREXISTS command requires an key and member argument.\n");
+      } else {
+        if (dict.has(inputArray[1])) {
+          let member = dict
+            .get(inputArray[1])
+            .find((mem) => mem == inputArray[2]);
+          if (member) {
+            console.log(">> true\n");
+          } else {
+            console.log(">> false\n");
+          }
+        } else {
+          console.log(">> false\n");
+        }
+      }
+    }
+
     switch (inputArray[0].toLowerCase()) {
       case "help": 
           help()
@@ -150,7 +194,22 @@ async function run() {
           break
       case "removeall":
           removeAll()
-          break;
+          break
+      case "clear":
+          clear()
+          break
+      case "keyexists":
+          keyExists()
+          break
+      case "memberexists":
+          memberExists()
+          break
+      case "allmembers":
+          getAllMembers()
+          break
+      case "items":
+          getAllItems()
+          break
       default:
           console.log("That is not a command prompt.\n\nType HELP for a list of commands")
 
