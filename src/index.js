@@ -13,7 +13,7 @@ async function run() {
 
     // HELP
     // Extra functionality that allows a user to view all command prompts.
-    if (inputArray[0] == "HELP") {
+    const help = () => {
       if (inputArray.length !== 1) {
         console.log(">> ERROR, HELP returns all command prompts\n>> No arguments needed.");
       } else {
@@ -27,7 +27,7 @@ async function run() {
 
     // ADD 
     // Adds Key and Value to dictionary 
-    if (inputArray[0] == "ADD") {
+    const add = () => {
       if (inputArray.length !== 3) {
         console.log(">> ERROR, ADD must include a Key and a Member (ex. foo bar)\n");
       } else {
@@ -50,10 +50,11 @@ async function run() {
         }
       }
     }
+
     //KEYS 
     //displays all the keys in the dictionary 
 
-    if (inputArray[0] == "KEYS") {
+    const printKeys = () => {
       if (inputArray.length !== 1) {
         console.log(">> ERROR, this returns a list of all keys\n>> No arguments needed\n");
       }
@@ -72,7 +73,7 @@ async function run() {
     // MEMBERS
     // Displays all members associated with a key 
 
-    if (inputArray[0] == "MEMBERS") {
+    const printMembers = () => {
       if (inputArray.length !== 2) {
         console.log(">> ERROR, MEMBERS prompt requires a key.\n");
       } else {
@@ -85,7 +86,74 @@ async function run() {
         } else {
           console.log(">> ERROR, key not found.\n");
         }
+     }
+    }
+
+    //REMOVE member
+    const removeMember = () => {
+      if (inputArray.length !== 3) {
+        console.log(">> ERROR, please include a key and member pair.\n");
+      } else {
+        if (dict.has(inputArray[1])) {
+          let member = dict
+            .get(inputArray[1])
+            .find((m) => m == inputArray[2]);
+          if (member) {
+            let value = dict.get(inputArray[1]);
+            for (let i = 0; i < value.length; i++) {
+              if (value[i] == inputArray[2]) {
+                value.splice(i, 1);
+              }
+            }
+            if (dict.get(inputArray[1]).length == 0) {
+              dict.delete(inputArray[1]);
+            }
+            console.log(") Removed\n");
+          } else {
+            console.log("ERROR, member not found.\n");
+          }
+        } else {
+          console.log("ERROR, key not found.\n");
+        }
       }
+    }
+
+    //REMOVE ALL key 
+    const removeAll = () => {
+      if (inputArray.length !== 2) {
+        console.log(">> ERROR, please specify the key you would like to remove.\n");
+      } else {
+        if (dict.has(inputArray[1])) {
+          dict.delete(inputArray[1]);
+          console.log(") Removed\n");
+        } else {
+          console.log(") ERROR, key not found.\n");
+        }
+      }
+    }
+
+    switch (inputArray[0].toLowerCase()) {
+      case "help": 
+          help()
+          break 
+      case "add":
+          add()
+          break
+      case "keys":
+          printKeys()
+          break
+      case "members":
+          printMembers()
+          break;
+      case "remove":
+          removeMember()
+          break
+      case "removeall":
+          removeAll()
+          break;
+      default:
+          console.log("That is not a command prompt.\n\nType HELP for a list of commands")
+
     }
   }
 }
