@@ -68,6 +68,25 @@ async function run() {
         console.log("");
       }
     }
+
+    // MEMBERS
+    // Displays all members associated with a key 
+
+    if (inputArray[0] == "MEMBERS") {
+      if (inputArray.length !== 2) {
+        console.log(">> ERROR, MEMBERS prompt requires a key.\n");
+      } else {
+        if (dict.has(inputArray[1])) {
+          for (let i = 0; i < dict.get(inputArray[1]).length; i++) {
+            let value = dict.get(inputArray[1]);
+            console.log(`${i + 1}) ${value[i]}`);
+          }
+          console.log("");
+        } else {
+          console.log(">> ERROR, key not found.\n");
+        }
+      }
+    }
   }
 }
 
