@@ -93,7 +93,7 @@ async function run() {
           }
           console.log("");
         } else {
-          console.log(error(">> ERROR, key not found.\n"));
+          console.log(error(">> ERROR, key does not exist.\n"));
         }
      }
     }
@@ -122,7 +122,7 @@ async function run() {
             console.log(error("ERROR, member not found.\n"));
           }
         } else {
-          console.log(error("ERROR, key not found.\n"));
+          console.log(error("ERROR, key does not exist.\n"));
         }
       }
     }
@@ -136,7 +136,7 @@ async function run() {
           dict.delete(inputArray[1]);
           console.log(success(">> Removed\n"));
         } else {
-          console.log(success(">> ERROR, key not found.\n"));
+          console.log(success(">> ERROR, key does not exist.\n"));
         }
       }
     }
