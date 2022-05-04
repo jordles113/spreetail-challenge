@@ -21,36 +21,39 @@ async function run() {
     console.log(
       baseStyle("Please enter a command. For a list of commands enter HELP.")
     );
-    const input = question(baseStyle(">"));
-    const inputArray = input.split(" ");
+    const input = question(baseStyle(">"))
+    const inputArray = input.split(" ")
+
+    const key = inputArray?.[1]
+    const member = inputArray?.[2]
 
     switch (inputArray[0].toLowerCase()) {
       case "help": 
           help(inputArray)
           break 
       case "add":
-          add(inputArray)
+          add(inputArray, key, member)
           break
       case "keys":
           printKeys(inputArray)
           break
       case "members":
-          printMembers(inputArray)
+          printMembers(inputArray, key)
           break;
       case "remove":
-          removeMember(inputArray)
+          removeMember(inputArray, key, member)
           break
       case "removeall":
-          removeAll(inputArray)
+          removeAll(inputArray, key)
           break
       case "clear":
           clear(inputArray)
           break
       case "keyexists":
-          keyExists(inputArray)
+          keyExists(inputArray, key)
           break
       case "memberexists":
-          memberExists(inputArray)
+          memberExists(inputArray, key, member)
           break
       case "allmembers":
           getAllMembers(inputArray)

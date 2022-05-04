@@ -12,7 +12,7 @@
     // HELP
     // Extra functionality that allows a user to view all command prompts.
     export const help = (inputArray) => {
-      if (inputArray?.length !== 1) {
+      if (inputArray.length !== 1) {
         console.log(error(">> ERROR, HELP returns all command prompts\n>> No arguments needed."));
       } else {
         console.log(baseStyle("ADD\t\t KEYS\t\t MEMBERS"));
@@ -25,20 +25,20 @@
 
     // ADD 
     // Adds Key and Value to dictionary 
-    export const add = (inputArray) => {
+    export const add = (inputArray, key, member) => {
       if (inputArray.length !== 3) {
         console.log(error(">> ERROR, ADD must include a Key and a Member (ex. foo bar)\n"));
       } else {
-        if (dict.has(inputArray[1])) {
-          let member = dict
-            .get(inputArray[1])
-            .find((mem) => mem == inputArray[2]);
-          if (member) {
-            console.log(error(`>> ERROR, member:${inputArray[2]} already exists for key:${inputArray[1]}.\n`));
+        if (dict.has(key)) {
+          let memberMatch = dict
+            .get(key)
+            .find((mem) => mem == member);
+          if (memberMatch) {
+            console.log(error(`>> ERROR, member:${member} already exists for key:${key}.\n`));
           } else {
             dict.set(
-              inputArray[1],
-              dict.get(inputArray[1]).concat([inputArray[2]])
+              key,
+              dict.get(key).concat([member])
             );
             console.log(success(">> Added\n"));
           }
@@ -71,13 +71,13 @@
     // MEMBERS
     // Displays all members associated with a key 
 
-    export const printMembers = (inputArray) => {
+    export const printMembers = (inputArray, key) => {
       if (inputArray.length !== 2) {
         console.log(error(">> ERROR, MEMBERS prompt requires a key.\n"));
       } else {
-        if (dict.has(inputArray[1])) {
-          for (let i = 0; i < dict.get(inputArray[1]).length; i++) {
-            let value = dict.get(inputArray[1]);
+        if (dict.has(key)) {
+          for (let i = 0; i < dict.get(key).length; i++) {
+            let value = dict.get(key);
             console.log(success(`${i + 1}) ${value[i]}`));
           }
           console.log("");
@@ -88,23 +88,23 @@
     }
 
     //REMOVE member
-    export const removeMember = (inputArray) => {
+    export const removeMember = (inputArray, key, member) => {
       if (inputArray.length !== 3) {
         console.log(error(">> ERROR, please include a key and member pair.\n"));
       } else {
-        if (dict.has(inputArray[1])) {
-          let member = dict
-            .get(inputArray[1])
-            .find((m) => m == inputArray[2]);
-          if (member) {
-            let value = dict.get(inputArray[1]);
+        if (dict.has(key)) {
+          let memberMatch = dict
+            .get(key)
+            .find((mem) => mem == member);
+          if (memberMatch) {
+            let value = dict.get(key);
             for (let i = 0; i < value.length; i++) {
-              if (value[i] == inputArray[2]) {
+              if (value[i] == member) {
                 value.splice(i, 1);
               }
             }
-            if (dict.get(inputArray[1]).length == 0) {
-              dict.delete(inputArray[1]);
+            if (dict.get(key).length == 0) {
+              dict.delete(key);
             }
             console.log(success(">> Removed\n"));
           } else {
@@ -117,12 +117,12 @@
     }
 
     //REMOVE ALL key 
-    export const removeAll = (inputArray) => {
+    export const removeAll = (inputArray, key) => {
       if (inputArray.length !== 2) {
         console.log(error(">> ERROR, please specify the key you would like to remove.\n"));
       } else {
-        if (dict.has(inputArray[1])) {
-          dict.delete(inputArray[1]);
+        if (dict.has(key)) {
+          dict.delete(key);
           console.log(success(">> Removed\n"));
         } else {
           console.log(success(">> ERROR, key does not exist.\n"));
@@ -142,11 +142,11 @@
     }
 
     //KEY EXISTS 
-    export const keyExists = (inputArray) => {
+    export const keyExists = (inputArray, key) => {
       if (inputArray.length !== 2) {
         console.log(error(">> ERROR, KEYEXISTS commands requires a key argument.\n"));
       } else {
-        if (dict.has(inputArray[1])) {
+        if (dict.has(key)) {
           console.log(success(">> true\n"));
         } else {
           console.log(error(">> false\n"));
@@ -155,15 +155,15 @@
     }
 
     //MEMBER EXISTS 
-    export const memberExists = (inputArray) => {
+    export const memberExists = (inputArray, key, member) => {
       if (inputArray.length !== 3) {
         console.log(error(">> ERROR, MEMBEREXISTS command requires an key and member argument.\n"));
       } else {
-        if (dict.has(inputArray[1])) {
-          let member = dict
-            .get(inputArray[1])
-            .find((mem) => mem == inputArray[2]);
-          if (member) {
+        if (dict.has(key)) {
+          let memberMatch = dict
+            .get(key)
+            .find((mem) => mem == member);
+          if (memberMatch) {
             console.log(success(">> true\n"));
           } else {
             console.log(error(">> false\n"));
