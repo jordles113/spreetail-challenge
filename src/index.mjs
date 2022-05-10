@@ -12,6 +12,7 @@ import { help,
          memberExists, 
          getAllMembers, 
          getAllItems,
+         getHighestMember,
          baseStyle, 
          success
         } from './dictionaryUtils.mjs'
@@ -57,6 +58,9 @@ async function run() {
           break
       case "allmembers":
           getAllMembers(inputArray)
+          break
+      case 'highest': 
+          getHighestMember(inputArray, key, member)  
           break
       case "items":
           getAllItems(inputArray)

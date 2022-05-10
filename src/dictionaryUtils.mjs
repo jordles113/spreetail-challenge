@@ -196,6 +196,37 @@
       }
     }
 
+    //HIGHTEST MEMBER
+    export const getHighestMember = (inputArray) => {
+      if (inputArray.length !== 1) {
+        console.log(error(">> ERROR,no arguments needed.\n"));
+      } else {
+        if (dict.size !== 0) {
+          let j = 0;
+          const logMapElements = (value, key) => {
+            let max = value[0]
+            let maxIndex = 0 
+            console.log(max, "am I working?")
+            for (let i = 0; i < value.length; i++) {
+              j++;
+              if (value[i] > max) {
+                maxIndex = i 
+                max = value[i]
+              }
+              console.log(max, "max")
+              return max
+            }
+            console.log(max, "am I working 33?")
+          }
+          dict.forEach(logMapElements);
+          
+        } else {
+          console.log(warning("There are no Sets in the Dictionary.\n"));
+        }
+      }
+    }
+    
+
     //ITEMS 
 
     export const getAllItems = (inputArray) => {
